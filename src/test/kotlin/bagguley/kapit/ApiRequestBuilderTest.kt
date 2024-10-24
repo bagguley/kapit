@@ -22,13 +22,17 @@ class ApiRequestBuilderTest: ShouldSpec ({
 
     should("Make a GET request") {
         wireMockServer.stubFor(
-            get("/api")
-                .withHeader("Accept", EqualToPattern("application/json"))
+            get(urlPathEqualTo("/api"))
+                .withQueryParam("name-1", equalTo("value-1"))
+                .withQueryParam("name-2", equalTo("value-2"))
+                .withHeader("Accept", equalTo("application/json"))
                 .willReturn(aResponse()
                     .withStatus(200)
                     .withHeader("Content-Type", "application/json; charset=utf-8")))
 
         get("${runtimeInfo.httpBaseUrl}/api") {
+            query("name-1", "value-1")
+            query("name-2", "value-2")
             header("Accept", "application/json")
         } should {
             haveStatus(OK)
@@ -38,7 +42,9 @@ class ApiRequestBuilderTest: ShouldSpec ({
 
     should("Make a PATCH request") {
         wireMockServer.stubFor(
-            patch("/api")
+            patch(urlPathEqualTo("/api"))
+                .withQueryParam("name-1", equalTo("value-1"))
+                .withQueryParam("name-2", equalTo("value-2"))
                 .withHeader("Accept", EqualToPattern("application/json"))
                 .withRequestBody(EqualToPattern("""{ "hello": "world" }"""))
                 .willReturn(aResponse()
@@ -46,6 +52,8 @@ class ApiRequestBuilderTest: ShouldSpec ({
                     .withHeader("Content-Type", "application/json; charset=utf-8")))
 
         patch("${runtimeInfo.httpBaseUrl}/api") {
+            query("name-1", "value-1")
+            query("name-2", "value-2")
             header("Accept", "application/json")
             body("""{ "hello": "world" }""")
         } should {
@@ -56,7 +64,9 @@ class ApiRequestBuilderTest: ShouldSpec ({
 
     should("Make a POST request") {
         wireMockServer.stubFor(
-            post("/api")
+            post(urlPathEqualTo("/api"))
+                .withQueryParam("name-1", equalTo("value-1"))
+                .withQueryParam("name-2", equalTo("value-2"))
                 .withHeader("Accept", EqualToPattern("application/json"))
                 .withRequestBody(EqualToPattern("""{ "hello": "world" }"""))
                 .willReturn(aResponse()
@@ -64,6 +74,8 @@ class ApiRequestBuilderTest: ShouldSpec ({
                     .withHeader("Content-Type", "application/json; charset=utf-8")))
 
         post("${runtimeInfo.httpBaseUrl}/api") {
+            query("name-1", "value-1")
+            query("name-2", "value-2")
             header("Accept", "application/json")
             body("""{ "hello": "world" }""")
         } should {
@@ -74,7 +86,9 @@ class ApiRequestBuilderTest: ShouldSpec ({
 
     should("Make a PUT request") {
         wireMockServer.stubFor(
-            put("/api")
+            put(urlPathEqualTo("/api"))
+                .withQueryParam("name-1", equalTo("value-1"))
+                .withQueryParam("name-2", equalTo("value-2"))
                 .withHeader("Accept", EqualToPattern("application/json"))
                 .withRequestBody(EqualToPattern("""{ "hello": "world" }"""))
                 .willReturn(aResponse()
@@ -82,6 +96,8 @@ class ApiRequestBuilderTest: ShouldSpec ({
                     .withHeader("Content-Type", "application/json; charset=utf-8")))
 
         put("${runtimeInfo.httpBaseUrl}/api") {
+            query("name-1", "value-1")
+            query("name-2", "value-2")
             header("Accept", "application/json")
             body("""{ "hello": "world" }""")
         } should {
@@ -92,13 +108,17 @@ class ApiRequestBuilderTest: ShouldSpec ({
 
     should("Make a DELETE request") {
         wireMockServer.stubFor(
-            delete("/api")
+            delete(urlPathEqualTo("/api"))
+                .withQueryParam("name-1", equalTo("value-1"))
+                .withQueryParam("name-2", equalTo("value-2"))
                 .withHeader("Accept", EqualToPattern("application/json"))
                 .willReturn(aResponse()
                     .withStatus(204)
                     .withHeader("Content-Type", "application/json; charset=utf-8")))
 
         delete("${runtimeInfo.httpBaseUrl}/api") {
+            query("name-1", "value-1")
+            query("name-2", "value-2")
             header("Accept", "application/json")
         } should {
             haveStatus(NO_CONTENT)
@@ -108,13 +128,17 @@ class ApiRequestBuilderTest: ShouldSpec ({
 
     should("Make a HEAD request") {
         wireMockServer.stubFor(
-            head(urlEqualTo("/api"))
+            head(urlPathEqualTo("/api"))
+                .withQueryParam("name-1", equalTo("value-1"))
+                .withQueryParam("name-2", equalTo("value-2"))
                 .withHeader("Accept", EqualToPattern("application/json"))
                 .willReturn(aResponse()
                     .withStatus(204)
                     .withHeader("Content-Type", "application/json; charset=utf-8")))
 
         head("${runtimeInfo.httpBaseUrl}/api") {
+            query("name-1", "value-1")
+            query("name-2", "value-2")
             header("Accept", "application/json")
         } should {
             haveStatus(NO_CONTENT)
@@ -124,13 +148,17 @@ class ApiRequestBuilderTest: ShouldSpec ({
 
     should("Make an OPTIONS request") {
         wireMockServer.stubFor(
-            options(urlEqualTo("/api"))
+            options(urlPathEqualTo("/api"))
+                .withQueryParam("name-1", equalTo("value-1"))
+                .withQueryParam("name-2", equalTo("value-2"))
                 .withHeader("Accept", EqualToPattern("application/json"))
                 .willReturn(aResponse()
                     .withStatus(204)
                     .withHeader("Content-Type", "application/json; charset=utf-8")))
 
         options("${runtimeInfo.httpBaseUrl}/api") {
+            query("name-1", "value-1")
+            query("name-2", "value-2")
             header("Accept", "application/json")
         } should {
             haveStatus(NO_CONTENT)
@@ -140,7 +168,9 @@ class ApiRequestBuilderTest: ShouldSpec ({
 
     should("Make a TRACE request") {
         wireMockServer.stubFor(
-            trace(urlEqualTo("/api"))
+            trace(urlPathEqualTo("/api"))
+                .withQueryParam("name-1", equalTo("value-1"))
+                .withQueryParam("name-2", equalTo("value-2"))
                 .withHeader("Accept", EqualToPattern("application/json"))
                 .willReturn(aResponse()
                     .withStatus(200)
@@ -148,6 +178,8 @@ class ApiRequestBuilderTest: ShouldSpec ({
                     .withBody("""{ "hello": "world" }""")))
 
         trace("${runtimeInfo.httpBaseUrl}/api") {
+            query("name-1", "value-1")
+            query("name-2", "value-2")
             header("Accept", "application/json")
         } should {
             haveStatus(OK)

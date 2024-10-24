@@ -1,15 +1,16 @@
 plugins {
-    kotlin("jvm") version "2.0.20"
+    kotlin("jvm") version "2.0.21"
     id("org.jetbrains.kotlinx.kover") version "0.8.3"
+    id("com.github.ben-manes.versions") version "0.51.0"
 }
 
 group = "bagguley.kapit"
 version = "1.0-SNAPSHOT"
 
-val http4kVersion = "5.30.0.0"
+val http4kVersion = "5.32.4.0"
 val kotestVersion = "5.9.1"
 val kotestWireMockVersion = "3.1.0"
-val wiremockVersion = "3.9.1"
+val wiremockVersion = "3.9.2"
 
 repositories {
     mavenCentral()
@@ -34,7 +35,7 @@ tasks.test {
 }
 
 kotlin {
-    jvmToolchain(18)
+    jvmToolchain(21)
 }
 
 kover {

@@ -9,6 +9,7 @@ import org.http4k.core.Response
 class ApiRequestBuilder {
     private lateinit var _requestFactory: RequestFactory
     private val _headers = mutableListOf<Pair<String, String>>()
+    private val _queries = mutableListOf<Pair<String, String>>()
     private var _body: String? = null
 
     fun call(): Response {
@@ -17,7 +18,8 @@ class ApiRequestBuilder {
         val request = _requestFactory
             .createRequest()
             .headers(_headers)
-            .let{ if (_body != null) it.body(_body!!) else it}
+            .let{ req -> if (_queries.isNotEmpty()) _queries.fold(req) { acc, pair -> acc.query(pair.first, pair.second) } else req }
+            .let{ if (_body != null) it.body(_body!!) else it }
 
         val client = ApacheClient()
 
@@ -26,6 +28,10 @@ class ApiRequestBuilder {
 
     fun request(requestFactory: RequestFactory) {
         _requestFactory = requestFactory
+    }
+
+    fun query(key: String, value: String) {
+        _queries.add(key to value)
     }
 
     fun header(key: String, value: String) {
