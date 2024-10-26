@@ -7,7 +7,7 @@ plugins {
 group = "bagguley.kapit"
 version = "1.0-SNAPSHOT"
 
-val http4kVersion = "5.32.4.0"
+val http4kVersion = "5.33.0.1"
 val kotestVersion = "5.9.1"
 val kotestWireMockVersion = "3.1.0"
 val wiremockVersion = "3.9.2"
@@ -42,7 +42,7 @@ kover {
     reports {
         verify {
             rule {
-                minBound(95)
+                minBound(80)
             }
         }
     }

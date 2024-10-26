@@ -1,5 +1,13 @@
 package bagguley.kapit
 
+import bagguley.kapit.ApiRequestBuilder.Companion.delete
+import bagguley.kapit.ApiRequestBuilder.Companion.get
+import bagguley.kapit.ApiRequestBuilder.Companion.head
+import bagguley.kapit.ApiRequestBuilder.Companion.options
+import bagguley.kapit.ApiRequestBuilder.Companion.patch
+import bagguley.kapit.ApiRequestBuilder.Companion.post
+import bagguley.kapit.ApiRequestBuilder.Companion.put
+import bagguley.kapit.ApiRequestBuilder.Companion.trace
 import com.github.tomakehurst.wiremock.WireMockServer
 import com.github.tomakehurst.wiremock.client.WireMock.*
 import com.github.tomakehurst.wiremock.core.WireMockConfiguration
@@ -20,7 +28,7 @@ class ApiRequestBuilderTest: ShouldSpec ({
     val runtimeInfo = WireMockRuntimeInfo(wireMockServer)
     listener(WireMockListener(wireMockServer, ListenerMode.PER_SPEC))
 
-    should("Make a GET request") {
+    should("Make a GET request with query parameter") {
         wireMockServer.stubFor(
             get(urlPathEqualTo("/api"))
                 .withQueryParam("name-1", equalTo("value-1"))
@@ -33,6 +41,22 @@ class ApiRequestBuilderTest: ShouldSpec ({
         get("${runtimeInfo.httpBaseUrl}/api") {
             query("name-1", "value-1")
             query("name-2", "value-2")
+            header("Accept", "application/json")
+        } should {
+            haveStatus(OK)
+            haveHeader("Content-Type", be("application/json; charset=utf-8"))
+        }
+    }
+
+    should("Make a GET request without query parameters") {
+        wireMockServer.stubFor(
+            get(urlEqualTo("/api"))
+                .withHeader("Accept", equalTo("application/json"))
+                .willReturn(aResponse()
+                    .withStatus(200)
+                    .withHeader("Content-Type", "application/json; charset=utf-8")))
+
+        get("${runtimeInfo.httpBaseUrl}/api") {
             header("Accept", "application/json")
         } should {
             haveStatus(OK)
