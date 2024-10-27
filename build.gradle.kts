@@ -1,5 +1,6 @@
 plugins {
     kotlin("jvm") version "2.0.21"
+    `maven-publish`
     id("org.jetbrains.kotlinx.kover") version "0.8.3"
     id("com.github.ben-manes.versions") version "0.51.0"
 }
@@ -43,6 +44,44 @@ kover {
         verify {
             rule {
                 minBound(80)
+            }
+        }
+    }
+}
+
+publishing {
+    publications {
+        create<MavenPublication>("maven") {
+            groupId = "bagguley.kapit"
+            artifactId = project.name
+            version = version
+
+            from(components["java"])
+
+            pom {
+                name = "Kapit"
+                description = "A Kotlin DSL for API testing"
+                url = "https://github.com/bagguley/Kapit"
+                properties = mapOf(
+                    "myProp" to "value",
+                    "prop.with.dots" to "anotherValue"
+                )
+                licenses {
+                    license {
+                        name = "MIT License"
+                        url = "https://opensource.org/license/MIT"
+                    }
+                }
+                developers {
+                    developer {
+                        name = "Wayne Bagguley"
+                    }
+                }
+                scm {
+                    connection = "scm:git:git://github.com/bagguley/kapit.git"
+                    developerConnection = "https://github.com/bagguley"
+                    url = "https://github.com/bagguley/Kapit"
+                }
             }
         }
     }
